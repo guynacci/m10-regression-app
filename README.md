@@ -1,27 +1,40 @@
 # Inside the Prediction
 
-Public app link: **Pending GitHub connection and publication.**
+[Open the app](https://guynacci.github.io/m10-regression-app/)
 
+This app explains how linear regression, random forests, and gradient boosting make predictions. You can switch between fasting glucose, blood pressure, and lung function datasets and choose one of five example people.
 
-## Direct section links
+## Model sections
 
-- [Push & Pull](./index.html#linear)
-- [Wisdom of the Forest](./index.html#forest)
-- [One Correction at a Time](./index.html#boosting)
+- [Push & Pull](https://guynacci.github.io/m10-regression-app/#linear): see how the starting prediction and each feature's positive or negative push add up. You can edit the inputs to see how the linear prediction changes.
+- [Wisdom of the Forest](https://guynacci.github.io/m10-regression-app/#forest): compare individual tree predictions and watch the average change as more trees are included.
+- [One Correction at a Time](https://guynacci.github.io/m10-regression-app/#boosting): follow the corrections added each round and compare training and validation error to choose a stopping round.
 
-## My viewer should walk away knowing…
+## What I want the viewer to understand
 
-- Linear: the training-average baseline plus coefficient × distance from the training average for each feature reconstructs a prediction; one person's push differs from overall feature importance.
-- Forest: diverse trees are averaged, a partial forest uses only the first selected trees, and their disagreement is not a calibrated uncertainty interval.
-- Boosting: each new tree corrects training residuals, and the validation-error minimum guides a stopping choice without constituting an independent test result.
+- **Linear regression:** My viewer should walk away knowing that a prediction starts at the training-average baseline, then adds one signed push per feature. A coefficient is the change per feature unit; a person's push also depends on how far their value is from the training average.
+- **Random forest:** My viewer should walk away knowing that different trees make different predictions and the forest averages them. Disagreement between trees is not a confidence or prediction interval.
+- **Gradient boosting:** My viewer should walk away knowing that each new tree adds a correction based on training residuals. The round with the lowest validation RMSE guides the stopping choice; it is not an independent test result.
 
-## Run
+## Run locally
 
-Double-click `index.html`. It contains the supplied bundles, styles and JavaScript, works offline, and needs no build, external library or server. Editable source modules are included in `app.js`, `m10.js` and `style.css`. The deployed page is the self-contained `index.html`; source changes must also be reflected in its embedded script and styles.
+Download the repository and open `index.html` in a browser. The page includes its data, JavaScript, and styles, so it works offline without installing anything.
 
-## Provenance
+Editable source files are also included as `app.js`, `m10.js`, and `style.css`. Changes to these files need to be reflected in the embedded code in `index.html` to update the published page.
+
+## Data and sources
+
+The app uses the course's supplied model outputs and CDC/NCHS NHANES public-use data:
+
+- Fasting glucose and blood pressure: NHANES 2017–2018.
+- Lung function: NHANES 2011–2012.
+
+Dataset descriptions are in `data/README.md`, and preparation details are in `data/manifest.json`. These results describe the survey sample and do not establish cause and effect.
 
 Course starter: https://github.com/snsie/regression-activity
-Data: CDC/NCHS NHANES public-use files; see data/README.md and data/manifest.json. The competition uses real NHANES data and fixed supplied models; the separate 500-row lung-function notebook uses simulated data in liters. They are different datasets.
 
-All fixed-output checks are in `check.md`. Additional numerical checks can be run with `node verify.mjs`. No passwords, API keys or private participant data are included.
+## Checks and prompt log
+
+`check.md` lists reference values. Run `node verify.mjs` to check the supplied predictions, forest averages, boosting corrections, and validation minima. Node.js is needed for this check, but not to use the app.
+
+The AI prompt log is in `prompts.md`.
